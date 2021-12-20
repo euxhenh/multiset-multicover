@@ -17,12 +17,21 @@ MultiSet::MultiSet(const vector<size_t>& elements, const vector<size_t>& multipl
 #ifdef DEBUG
     cout << "Constructing Multi Set " << this << endl;
 #endif
+    if (elements.size() != multiplicity.size())
+        throw Exception("Found elements and multiplicities of differing sizes.");
     if (*std::min_element(multiplicity.begin(), multiplicity.end()) <= 0)
         throw Exception("Cannot only accept positive multiplicities.");
     this->__init_leftovers();
 }
 
-void MultiSet::reset()
+const pair<size_t, size_t> MultiSet::operator[](size_t index) const
+{
+    if (index >= this->_n_elements)
+        throw Exception("Index out of bound.");
+    return { this->_elements[index], this->_multiplicity[index] };
+}
+
+void MultiSet::reset_leftovers()
 {
     this->__init_leftovers();
 }
@@ -51,6 +60,9 @@ size_t MultiSet::value() const
 
 void MultiSet::consume(const vector<size_t>& upper_limits)
 {
+    if (upper_limits.size() <= this->_n_elements)
+        throw Exception("Upper limits size smaller than the number of elements.");
+
     this->_value = 0;
     for (size_t i = 0; i < this->_n_elements; ++i) {
         this->_leftovers[i] = std::min(this->_leftovers[i], upper_limits[this->_elements[i]]);
@@ -60,16 +72,16 @@ void MultiSet::consume(const vector<size_t>& upper_limits)
 
 std::ostream& operator<<(std::ostream& os, const MultiSet& ms)
 {
-    os << "[(" << ms[0] << ", " << ms._multiplicity[0] << ")";
+    os << "[(" << ms[0].first << ", " << ms[0].second << ")";
     if (ms.size() <= 10) {
         for (size_t i = 1; i < ms.size(); ++i)
-            os << ", (" << ms[i] << ", " << ms._multiplicity[i] << ")";
+            os << ", (" << ms[i].first << ", " << ms[i].second << ")";
     } else {
         for (size_t i = 1; i < 5; ++i)
-            os << ", " << ms[i];
+            os << ", " << ms[i].first;
         os << ", ...";
         for (size_t i = ms.size() - 5; i < ms.size(); ++i)
-            os << ", (" << ms[i] << ", " << ms._multiplicity[i] << ")";
+            os << ", (" << ms[i].first << ", " << ms[i].second << ")";
     }
     os << "]\n";
     return os;

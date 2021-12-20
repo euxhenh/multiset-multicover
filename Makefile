@@ -1,4 +1,5 @@
-CFLAGS = -Iincludes -I/Users/ehasanaj/miniconda3/envs/ml38/include/python3.8 -std=c++17 -DDEBUG
+CFLAGS = -Iincludes -I/Users/ehasanaj/miniconda3/envs/ml38/include/python3.8 -std=c++17 -DDEBUG -D_FORTIFY_SOURCE=2 \
+	-D_GLIBCXX_ASSERTIONS -O2 -Wall
 CC = g++
 SRC = $(wildcard src/multiset_multipacking/*.cpp)
 OBJ = $(SRC:.cpp = .o)
