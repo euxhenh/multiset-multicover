@@ -1,3 +1,6 @@
-test_set*
+test_set
 tmp
 .vscode
+build
+dist
+*egg-info
