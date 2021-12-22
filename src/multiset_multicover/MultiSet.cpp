@@ -3,6 +3,7 @@
 MultiSet::MultiSet(const vector<size_t>& elements)
     : BaseSet(elements)
     , _multiplicity(__default_multiplicity())
+    , __maxel(*std::max_element(this->_elements.begin(), this->_elements.end()))
 {
 #ifdef DEBUG
     cout << "Constructing Multi Set " << this << endl;
@@ -13,6 +14,7 @@ MultiSet::MultiSet(const vector<size_t>& elements)
 MultiSet::MultiSet(const vector<size_t>& elements, const vector<size_t>& multiplicity)
     : BaseSet(elements)
     , _multiplicity(multiplicity)
+    , __maxel(*std::max_element(this->_elements.begin(), this->_elements.end()))
 {
 #ifdef DEBUG
     cout << "Constructing Multi Set " << this << endl;
@@ -60,7 +62,7 @@ size_t MultiSet::value() const
 
 void MultiSet::consume(const vector<size_t>& upper_limits)
 {
-    if (upper_limits.size() <= this->_n_elements)
+    if (upper_limits.size() <= this->__maxel)
         throw Exception("Upper limits size smaller than the number of elements.");
 
     this->_value = 0;

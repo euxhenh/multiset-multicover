@@ -33,6 +33,7 @@ protected:
     const vector<size_t> _multiplicity;
 
 private:
+    const size_t __maxel;
     void __init_leftovers();
     vector<size_t> __default_multiplicity();
 };

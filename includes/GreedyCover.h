@@ -5,7 +5,6 @@
 #include <cstddef> // size_t
 #include <iostream> // ostream
 #include <list>
-#include <numeric> // accumulate
 #include <vector>
 
 using std::list;
@@ -31,8 +30,8 @@ public:
     vector<size_t> get_leftovers() const;
     vector<size_t> get_multisets_incomplete_cover() const;
 
-    void add_multiset(const vector<size_t>& mset);
-    void add_multiset(const vector<size_t>& mset, const vector<size_t>& mult);
+    void add_multiset(const vector<size_t>& elements);
+    void add_multiset(const vector<size_t>& elements, const vector<size_t>& mult);
     vector<size_t> cover(size_t coverage);
     vector<size_t> cover(size_t coverage, size_t max_iters);
     vector<size_t> cover(const vector<size_t>& coverage);
@@ -45,6 +44,7 @@ protected:
     bool _covered = false;
     const size_t _n_elements; // Number of elements in all sets
     size_t _max_iters = 0; // Max number of sets to pick
+
     vector<size_t> _max_coverage;
     vector<size_t> _leftovers;
     list<size_t> _remaining_msets;
@@ -58,7 +58,9 @@ private:
     void __init_leftovers();
     void __update_leftovers(const MultiSet& mset);
     void __init_remaining_msets();
+    void __reset_msets();
     bool __stop() const;
+    void __check_elements(const vector<size_t>& elements) const;
     vector<size_t> __cover();
 };
 

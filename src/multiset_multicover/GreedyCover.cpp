@@ -45,25 +45,25 @@ vector<size_t> GreedyCoverInstance::get_multisets_incomplete_cover() const
     return this->_multisets_incomplete_cover;
 }
 
-void GreedyCoverInstance::add_multiset(const vector<size_t>& mset)
+void GreedyCoverInstance::__check_elements(const vector<size_t>& elements) const
 {
-    if (*std::min_element(mset.begin(), mset.end()) < 0)
+    if (*std::min_element(elements.begin(), elements.end()) < 0)
         throw Exception("Cannot accept negative elements.");
-    if (*std::max_element(mset.begin(), mset.end()) >= this->_n_elements)
+    if (*std::max_element(elements.begin(), elements.end()) >= this->_n_elements)
         throw Exception("Found element greater than number of elements.");
+}
 
-    this->_multisets.emplace_back(mset); // Implicit conversion taking place
+void GreedyCoverInstance::add_multiset(const vector<size_t>& elements)
+{
+    this->__check_elements(elements);
+    this->_multisets.emplace_back(elements); // Implicit conversion taking place
     this->__update_max_coverage(this->_multisets[this->size() - 1]); // Use last multiset to update coverage
 }
 
-void GreedyCoverInstance::add_multiset(const vector<size_t>& mset, const vector<size_t>& mult)
+void GreedyCoverInstance::add_multiset(const vector<size_t>& elements, const vector<size_t>& mult)
 {
-    if (*std::min_element(mset.begin(), mset.end()) < 0)
-        throw Exception("Cannot accept negative elements.");
-    if (*std::max_element(mset.begin(), mset.end()) >= this->_n_elements)
-        throw Exception("Found element greater than number of elements.");
-
-    this->_multisets.emplace_back(mset, mult); // Implicit conversion taking place
+    this->__check_elements(elements);
+    this->_multisets.emplace_back(elements, mult); // Implicit conversion taking place
     this->__update_max_coverage(this->_multisets[this->size() - 1]);
 }
 
@@ -73,10 +73,12 @@ vector<size_t> GreedyCoverInstance::__cover()
     // _exclusive = true <=> use individual coverages
     this->__init_leftovers();
     this->__init_remaining_msets();
+    this->__reset_msets();
+    this->solution.clear();
 
     while (!this->__stop()) {
         size_t value;
-        size_t best_val = SIZE_MAX;
+        size_t best_val = 0;
         list<size_t>::iterator ut;
         for (auto it = this->_remaining_msets.begin(); it != this->_remaining_msets.end(); ++it) {
             this->_multisets[*it].consume(this->_leftovers);
@@ -86,6 +88,7 @@ vector<size_t> GreedyCoverInstance::__cover()
                 ut = it;
             }
         }
+        this->solution.push_back(*ut);
         this->__update_leftovers(this->_multisets[*ut]);
         this->_remaining_msets.erase(ut);
     }
@@ -111,6 +114,8 @@ vector<size_t> GreedyCoverInstance::cover(size_t coverage, size_t max_iters)
 
 vector<size_t> GreedyCoverInstance::cover(const vector<size_t>& coverage)
 {
+    if (coverage.size() != this->_n_elements)
+        throw Exception("Coverage size differs from the number of elements.");
     this->_coverage_idx = coverage;
     this->_exclusive = true;
     return this->__cover();
@@ -118,6 +123,8 @@ vector<size_t> GreedyCoverInstance::cover(const vector<size_t>& coverage)
 
 vector<size_t> GreedyCoverInstance::cover(const vector<size_t>& coverage, size_t max_iters)
 {
+    if (coverage.size() != this->_n_elements)
+        throw Exception("Coverage size differs from the number of elements.");
     this->_coverage_idx = coverage;
     this->_max_iters = max_iters;
     this->_exclusive = true;
@@ -162,7 +169,10 @@ void GreedyCoverInstance::__init_leftovers()
 void GreedyCoverInstance::__update_leftovers(const MultiSet& mset)
 {
     for (size_t i = 0; i < mset.size(); ++i)
-        this->_leftovers[mset[i].first] = std::max(this->_leftovers[mset[i].first] - mset[i].second, size_t(0));
+        if (this->_leftovers[mset[i].first] <= mset[i].second)
+            this->_leftovers[mset[i].first] = 0;
+        else
+            this->_leftovers[mset[i].first] = this->_leftovers[mset[i].first] - mset[i].second;
 }
 
 void GreedyCoverInstance::__init_remaining_msets()
@@ -170,6 +180,12 @@ void GreedyCoverInstance::__init_remaining_msets()
     this->_remaining_msets.clear();
     for (size_t i = 0; i < this->size(); ++i)
         this->_remaining_msets.push_back(i);
+}
+
+void GreedyCoverInstance::__reset_msets()
+{
+    for (size_t i = 0; i < this->size(); ++i)
+        this->_multisets[i].reset_leftovers();
 }
 
 bool GreedyCoverInstance::__stop() const
@@ -181,16 +197,15 @@ bool GreedyCoverInstance::__stop() const
         return true;
     }
 
-    size_t iter = this->solution.size();
-    if (this->_max_iters != 0 && iter >= this->_max_iters - 1) {
+    if (this->_max_iters > 0 && this->solution.size() >= this->_max_iters) {
 #ifdef DEBUG
         cout << "Reached max number of iterations.\n";
 #endif
         return true;
     }
 
-    size_t sum = std::accumulate(this->_leftovers.begin(), this->_leftovers.end(), 0);
-    if (sum <= 0) {
+    size_t maxel = *std::max_element(this->_leftovers.begin(), this->_leftovers.end());
+    if (maxel <= 0) {
 #ifdef DEBUG
         cout << "Reached desired coverage.\n";
 #endif
