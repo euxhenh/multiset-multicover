@@ -30,10 +30,10 @@ public:
 protected:
     size_t _value = 0;
     vector<size_t> _leftovers;
-    const vector<size_t> _multiplicity;
+    vector<size_t> _multiplicity;
 
 private:
-    const size_t __maxel;
+    size_t __maxel;
     void __init_leftovers();
     vector<size_t> __default_multiplicity();
 };

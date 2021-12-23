@@ -57,14 +57,20 @@ void GreedyCoverInstance::add_multiset(const vector<size_t>& elements)
 {
     this->__check_elements(elements);
     this->_multisets.emplace_back(elements); // Implicit conversion taking place
-    this->__update_max_coverage(this->_multisets[this->size() - 1]); // Use last multiset to update coverage
+    this->__increase_max_coverage(this->_multisets[this->size() - 1]); // Use last multiset to update coverage
 }
 
 void GreedyCoverInstance::add_multiset(const vector<size_t>& elements, const vector<size_t>& mult)
 {
     this->__check_elements(elements);
     this->_multisets.emplace_back(elements, mult); // Implicit conversion taking place
-    this->__update_max_coverage(this->_multisets[this->size() - 1]);
+    this->__increase_max_coverage(this->_multisets[this->size() - 1]);
+}
+
+void GreedyCoverInstance::delete_multiset(size_t index)
+{
+    this->__decrease_max_coverage(index);
+    this->_multisets.erase(this->_multisets.begin() + index);
 }
 
 vector<size_t> GreedyCoverInstance::__cover()
@@ -90,6 +96,7 @@ vector<size_t> GreedyCoverInstance::__cover()
         }
         this->solution.push_back(*ut);
         this->__update_leftovers(this->_multisets[*ut]);
+        this->_coverage_until.push_back(this->__current_coverage());
         this->_remaining_msets.erase(ut);
     }
 
@@ -131,10 +138,18 @@ vector<size_t> GreedyCoverInstance::cover(const vector<size_t>& coverage, size_t
     return this->__cover();
 }
 
-void GreedyCoverInstance::__update_max_coverage(const MultiSet& mset)
+void GreedyCoverInstance::__increase_max_coverage(const MultiSet& mset)
 {
     for (size_t i = 0; i < mset.size(); ++i)
         this->_max_coverage[mset[i].first] += mset[i].second;
+}
+
+void GreedyCoverInstance::__decrease_max_coverage(size_t index)
+{
+    if (index >= this->size())
+        throw Exception("Index out of bound.");
+    for (size_t i = 0; i < this->_multisets[index].size(); ++i)
+        this->_max_coverage[this->_multisets[index][i].first] -= this->_multisets[index][i].second;
 }
 
 void GreedyCoverInstance::__init_leftovers()
@@ -212,4 +227,18 @@ bool GreedyCoverInstance::__stop() const
         return true;
     }
     return false;
+}
+
+size_t GreedyCoverInstance::__current_coverage() const
+{
+    size_t cc = SIZE_MAX;
+
+    if (!this->_exclusive)
+        for (size_t i = 0; i < this->_n_elements; ++i)
+            // No issue with minus since leftovers are always <=
+            cc = std::min(std::min(this->_coverage_all, this->_max_coverage[i]) - this->_leftovers[i], cc);
+    else
+        for (size_t i = 0; i < this->_n_elements; ++i)
+            cc = std::min(std::min(this->_coverage_idx[i], this->_max_coverage[i]) - this->_leftovers[i], cc);
+    return cc;
 }

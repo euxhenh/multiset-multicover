@@ -32,6 +32,7 @@ public:
 
     void add_multiset(const vector<size_t>& elements);
     void add_multiset(const vector<size_t>& elements, const vector<size_t>& mult);
+    void delete_multiset(size_t index);
     vector<size_t> cover(size_t coverage);
     vector<size_t> cover(size_t coverage, size_t max_iters);
     vector<size_t> cover(const vector<size_t>& coverage);
@@ -54,7 +55,8 @@ protected:
     vector<size_t> _coverage_idx; // coverage factors for each element individually
 
 private:
-    void __update_max_coverage(const MultiSet& mset);
+    void __increase_max_coverage(const MultiSet& mset);
+    void __decrease_max_coverage(size_t index);
     void __init_leftovers();
     void __update_leftovers(const MultiSet& mset);
     void __init_remaining_msets();
@@ -62,6 +64,7 @@ private:
     bool __stop() const;
     void __check_elements(const vector<size_t>& elements) const;
     vector<size_t> __cover();
+    size_t __current_coverage() const;
 };
 
 #endif // GREEDYCOVER_H

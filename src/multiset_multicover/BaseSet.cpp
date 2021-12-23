@@ -11,6 +11,29 @@ BaseSet::BaseSet(const vector<size_t>& elements)
         throw Exception("Cannot accept negative elements.");
 }
 
+BaseSet::BaseSet(const BaseSet& other)
+    : _n_elements(other._n_elements)
+{
+    this->_elements.resize(other._n_elements);
+    std::copy(other._elements.begin(), other._elements.end(), this->_elements.begin());
+#ifdef DEBUG
+    cout << "Copying " << &other << " to " << this << endl;
+#endif
+}
+
+BaseSet& BaseSet::operator=(const BaseSet& other)
+{
+    if (this != &other) {
+        this->_n_elements = other._n_elements;
+        this->_elements.resize(other._n_elements);
+        std::copy(other._elements.begin(), other._elements.end(), this->_elements.begin());
+    }
+    return *this;
+#ifdef DEBUG
+    cout << "Assigning " << &other << " to " << this << endl;
+#endif
+}
+
 const size_t& BaseSet::operator[](size_t index) const
 {
     if (index >= this->_n_elements)

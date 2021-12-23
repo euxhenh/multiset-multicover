@@ -1,12 +1,16 @@
 #ifndef PYTHON_INTERFACE_H
 #define PYTHON_INTERFACE_H
 
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <cstddef> // size_t
 #include <vector>
+#include <exception>
+#include <string>
 
 using std::size_t;
 using std::vector;
+using std::string;
 
 #include "GreedyCover.h"
 
@@ -24,20 +28,21 @@ PyObject* create_list_from_size_t_vector(const vector<size_t>& v);
 extern "C" {
 #endif
 
-PyObject* _new_GreedyCoverInstance(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _new_GreedyCoverInstance(PyObject* self, PyObject* args, PyObject* keywds);
 
-PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds);
-PyObject* _GreedyCoverInstance_n_elements(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_n_elements(PyObject* self, PyObject* args, PyObject* keywds);
 
-PyObject* _GreedyCoverInstance_get_max_coverage(PyObject* self, PyObject* args, PyObject* keywds);
-PyObject* _GreedyCoverInstance_get_leftovers(PyObject* self, PyObject* args, PyObject* keywds);
-PyObject* _GreedyCoverInstance_get_multisets_incomplete_cover(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_get_max_coverage(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_get_leftovers(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_get_multisets_incomplete_cover(PyObject* self, PyObject* args, PyObject* keywds);
 
-PyObject* _GreedyCoverInstance_add_multiset(PyObject* self, PyObject* args, PyObject* keywds);
-PyObject* _GreedyCoverInstance_cover(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_add_multiset(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_delete_multiset(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_cover(PyObject* self, PyObject* args, PyObject* keywds);
 
-PyObject* _GreedyCoverInstance_solution(PyObject* self, PyObject* args, PyObject* keywds);
-PyObject* _GreedyCoverInstance__coverage_until(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_solution(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance__coverage_until(PyObject* self, PyObject* args, PyObject* keywds);
 
 static PyMethodDef gci_methods[] = {
     { "_new_GreedyCoverInstance", (PyCFunction)_new_GreedyCoverInstance, METH_VARARGS | METH_KEYWORDS, "" },
@@ -47,6 +52,7 @@ static PyMethodDef gci_methods[] = {
     { "_GreedyCoverInstance_get_leftovers", (PyCFunction)_GreedyCoverInstance_get_leftovers, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_get_multisets_incomplete_cover", (PyCFunction)_GreedyCoverInstance_get_multisets_incomplete_cover, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_add_multiset", (PyCFunction)_GreedyCoverInstance_add_multiset, METH_VARARGS | METH_KEYWORDS, "" },
+    { "_GreedyCoverInstance_delete_multiset", (PyCFunction)_GreedyCoverInstance_delete_multiset, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_cover", (PyCFunction)_GreedyCoverInstance_cover, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_solution", (PyCFunction)_GreedyCoverInstance_solution, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance__coverage_until", (PyCFunction)_GreedyCoverInstance__coverage_until, METH_VARARGS | METH_KEYWORDS, "" },

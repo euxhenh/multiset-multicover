@@ -1,7 +1,7 @@
 #ifndef BASESET_H
 #define BASESET_H
 
-#include <algorithm> // min_element, max_element
+#include <algorithm> // min_element, max_element, copy
 #include <cstddef> // size_t
 #include <iostream> // ostream
 #include <vector>
@@ -13,6 +13,8 @@ using std::vector;
 class BaseSet {
 public:
     BaseSet(const vector<size_t>& elements);
+    BaseSet(const BaseSet& other);
+    BaseSet& operator=(const BaseSet& other);
     const size_t& operator[](size_t index) const;
     size_t size() const;
     size_t min() const;
@@ -21,8 +23,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const BaseSet& bs);
 
 protected:
-    const size_t _n_elements;
-    const vector<size_t> _elements;
+    size_t _n_elements;
+    vector<size_t> _elements;
 };
 
 #endif // BASESET_H

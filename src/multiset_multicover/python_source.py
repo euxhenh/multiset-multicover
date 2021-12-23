@@ -28,7 +28,7 @@ class GreedyCoverInstance:
         The object can be initialized by specifying the number of elements.
         All elements are assumed to be in range [0, n_elements-1] and
         adding any elements that extend this range will raise an error.
-        If your data is not in this range, or it does not consist of numerical
+        If your data is not in this range, or if it does not consist of numerical
         values, one can always encode it by using, for example,
         sklearn.preprocessing.LabelEncoder.
 
@@ -37,6 +37,7 @@ class GreedyCoverInstance:
         n_elements: int
             Number of elements.
         """
+        n_elements = int(n_elements)
         if n_elements < 1:
             raise ValueError("Cannot have less than 1 element.")
 
@@ -58,21 +59,21 @@ class GreedyCoverInstance:
         return _c_mm._GreedyCoverInstance_n_elements(self._gci)
 
     @property
-    def _max_coverage(self):
+    def max_coverage_(self):
         """
         The total multiplicity of each element across all multisets.
         """
         return _c_mm._GreedyCoverInstance_get_max_coverage(self._gci)
 
     @property
-    def _leftovers(self):
+    def leftovers_(self):
         """
         Will only return a value if coverage has been run.
         """
         return _c_mm._GreedyCoverInstance_get_leftovers(self._gci)
 
     @property
-    def _multisets_incomplete_cover(self):
+    def multisets_incomplete_cover_(self):
         """
         List of multisets for which the desired coverage cannot be achieved.
         Will only return a value if coverage has been run.
@@ -95,6 +96,8 @@ class GreedyCoverInstance:
         """
         if min(elements) < 0:
             raise ValueError("Cannot accept negative elements.")
+        if max(elements) >= self._n_elements:
+            raise ValueError("Found value greater than n_elements.")
         if multiplicity is not None and min(multiplicity) <= 0:
             raise ValueError("Can only accept positive multiplicities.")
         if multiplicity is not None and len(multiplicity) != len(elements):
@@ -102,6 +105,14 @@ class GreedyCoverInstance:
                 "Multiplicities must have the same length as the number of elements.")
         _c_mm._GreedyCoverInstance_add_multiset(
             self._gci, elements, multiplicity)
+
+    def delete_multiset(self, index):
+        """
+        Removes the multiset given by index.
+        """
+        if index >= self.size or index < 0:
+            raise ValueError("Index out of bound.")
+        _c_mm._GreedyCoverInstance_delete_multiset(self._gci, index)
 
     def cover(self, coverage, max_iters=0):
         """
@@ -134,3 +145,11 @@ class GreedyCoverInstance:
         Returns the solution indices.
         """
         return _c_mm._GreedyCoverInstance_solution(self._gci)
+
+    @property
+    def coverage_until_(self):
+        """
+        Returns the coverage factor for each selected element. Has the same
+        length as solution.
+        """
+        return _c_mm._GreedyCoverInstance__coverage_until(self._gci)
