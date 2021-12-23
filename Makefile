@@ -11,7 +11,7 @@ TestSet: test_set.o $(OBJ)
 	$(CC) $(CFLAGS) -o test_set test_set.o $(OBJ)
 
 test_set.o:
-	$(CC) $(CFLAGS) -c tests/test_set.cpp
+	$(CC) $(CFLAGS) -c test/test_set.cpp
 
 clean:
 	rm -f *.o
