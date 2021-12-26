@@ -16,9 +16,12 @@ public:
     BaseSet(const BaseSet& other);
     BaseSet& operator=(const BaseSet& other);
     const size_t& operator[](size_t index) const;
+    const size_t& at(size_t index) const;
     size_t size() const;
     size_t min() const;
     size_t max() const;
+
+    vector<size_t> get_elements() const;
 
     friend std::ostream& operator<<(std::ostream& os, const BaseSet& bs);
 

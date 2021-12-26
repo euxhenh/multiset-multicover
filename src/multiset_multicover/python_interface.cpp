@@ -84,6 +84,32 @@ PyObject* _new_GreedyCoverInstance(PyObject* self, PyObject* args, PyObject* key
     }
 }
 
+PyObject* _GreedyCoverInstance_at(PyObject* self, PyObject* args, PyObject* keywds)
+{
+    PyObject* py_gci = NULL;
+    PyObject* py_index = NULL;
+    static const char* kwlist[] = { "gci", "index", NULL };
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OO", (char**)kwlist, &py_gci, &py_index))
+        return NULL;
+
+    try {
+        GreedyCoverInstance* gci = decapsule_GreedyCoverInstance(py_gci);
+        if (PyLong_Check(py_index) && PyIndex_Check(py_index)) {
+            auto mset = gci->at(PyLong_AsSize_t(py_index));
+            PyObject* elements = create_list_from_size_t_vector(mset.get_elements());
+            PyObject* multiplicities = create_list_from_size_t_vector(mset.get_multiplicities());
+            PyObject* pp = PyTuple_Pack(2, elements, multiplicities);
+            return pp;
+        } else {
+            throw Exception("Non integer index found.");
+        }
+    } catch (std::exception const& e) {
+        string s = "Could not index element: " + string(e.what());
+        PyErr_SetString(PyExc_BaseException, s.c_str());
+        return NULL;
+    }
+}
+
 PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds)
 {
     PyObject* py_gci = NULL;
@@ -285,6 +311,23 @@ PyObject* _GreedyCoverInstance__coverage_until(PyObject* self, PyObject* args, P
         return create_list_from_size_t_vector(gci->_coverage_until);
     } catch (std::exception const& e) {
         string s = "Could not get step coverage: " + string(e.what());
+        PyErr_SetString(PyExc_BaseException, s.c_str());
+        return NULL;
+    }
+}
+
+PyObject* _GreedyCoverInstance__n_elements_remaining(PyObject* self, PyObject* args, PyObject* keywds)
+{
+    PyObject* py_gci = NULL;
+    static const char* kwlist[] = { "gci", NULL };
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "O", (char**)kwlist, &py_gci))
+        return NULL;
+
+    try {
+        GreedyCoverInstance* gci = decapsule_GreedyCoverInstance(py_gci);
+        return create_list_from_size_t_vector(gci->_n_elements_remaining);
+    } catch (std::exception const& e) {
+        string s = "Could not get n elements remaining: " + string(e.what());
         PyErr_SetString(PyExc_BaseException, s.c_str());
         return NULL;
     }

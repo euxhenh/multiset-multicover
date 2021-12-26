@@ -44,6 +44,12 @@ class GreedyCoverInstance:
         self._n_elements = n_elements
         self._gci = _c_mm._new_GreedyCoverInstance(n_elements)
 
+    def __getitem__(self, index):
+        """
+        Returns the multiset at `index`.
+        """
+        return _c_mm._GreedyCoverInstance_at(self._gci, index)
+
     @property
     def size(self):
         """
@@ -153,3 +159,11 @@ class GreedyCoverInstance:
         length as solution.
         """
         return _c_mm._GreedyCoverInstance__coverage_until(self._gci)
+
+    @property
+    def n_elements_remaining_(self):
+        """
+        Returns the coverage factor for each selected element. Has the same
+        length as solution.
+        """
+        return _c_mm._GreedyCoverInstance__n_elements_remaining(self._gci)

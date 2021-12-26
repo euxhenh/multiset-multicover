@@ -20,6 +20,9 @@ public:
     MultiSet(const vector<size_t>& elements);
     MultiSet(const vector<size_t>& elements, const vector<size_t>& multiplicity);
     const pair<size_t, size_t> operator[](size_t index) const;
+    const pair<size_t, size_t> at(size_t index) const;
+
+    vector<size_t> get_multiplicities() const;
 
     size_t value() const;
     void consume(const vector<size_t>& upper_limits);

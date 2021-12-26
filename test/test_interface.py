@@ -18,6 +18,8 @@ class test_interface(unittest.TestCase):
         assert_equal(gci.max_coverage_, [14, 8, 7, 2])
         solution = gci.cover(2)
         assert_equal(solution, [1, 2, 4])
+        n_elements_rem = gci.n_elements_remaining_
+        assert_equal(n_elements_rem, [3, 1, 0])
         coverage_until = gci.coverage_until_
         assert_equal(coverage_until, [1, 1, 2])
 
@@ -37,6 +39,14 @@ class test_interface(unittest.TestCase):
         assert_equal(solution, [4])
         leftovers = gci.leftovers_
         assert_equal(leftovers, [0, 0, 0, 2])
+
+        assert_equal(gci[1], ([0, 1, 2, 3], [1, 3, 1, 1]))
+
+        try:
+            gci[0] = 1
+            assert False
+        except:
+            pass
 
         gci.delete_multiset(1)
         solution = gci.cover(2, max_iters=1)

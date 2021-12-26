@@ -28,9 +28,19 @@ MultiSet::MultiSet(const vector<size_t>& elements, const vector<size_t>& multipl
 
 const pair<size_t, size_t> MultiSet::operator[](size_t index) const
 {
+    return this->at(index);
+}
+
+const pair<size_t, size_t> MultiSet::at(size_t index) const
+{
     if (index >= this->_n_elements)
         throw Exception("Index out of bound.");
     return { this->_elements[index], this->_multiplicity[index] };
+}
+
+vector<size_t> MultiSet::get_multiplicities() const
+{
+    return this->_multiplicity;
 }
 
 void MultiSet::reset_leftovers()

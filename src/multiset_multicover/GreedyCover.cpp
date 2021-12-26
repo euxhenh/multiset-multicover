@@ -11,6 +11,11 @@ GreedyCoverInstance::GreedyCoverInstance(size_t n_elements)
 
 const MultiSet& GreedyCoverInstance::operator[](size_t index) const
 {
+    return this->at(index);
+}
+
+const MultiSet& GreedyCoverInstance::at(size_t index) const
+{
     if (index >= this->size())
         throw Exception("Index out of bound.");
     return this->_multisets[index];
@@ -80,6 +85,7 @@ vector<size_t> GreedyCoverInstance::__cover()
     this->__init_leftovers();
     this->__init_remaining_msets();
     this->__reset_msets();
+    this->_n_elements_remaining.clear();
     this->solution.clear();
 
     while (!this->__stop()) {
@@ -97,6 +103,7 @@ vector<size_t> GreedyCoverInstance::__cover()
         this->solution.push_back(*ut);
         this->__update_leftovers(this->_multisets[*ut]);
         this->_coverage_until.push_back(this->__current_coverage());
+        this->_n_elements_remaining.push_back(this->__compute_n_ele_rem());
         this->_remaining_msets.erase(ut);
     }
 
@@ -195,6 +202,14 @@ void GreedyCoverInstance::__init_remaining_msets()
     this->_remaining_msets.clear();
     for (size_t i = 0; i < this->size(); ++i)
         this->_remaining_msets.push_back(i);
+}
+
+size_t GreedyCoverInstance::__compute_n_ele_rem() const
+{
+    size_t n_ele_rem = 0;
+    for (size_t i = 0; i < this->_n_elements; ++i)
+        n_ele_rem += (this->_leftovers[i] > 0);
+    return n_ele_rem;
 }
 
 void GreedyCoverInstance::__reset_msets()

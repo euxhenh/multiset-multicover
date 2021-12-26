@@ -9,6 +9,8 @@
 name: Upload multiset_multicover
 
 on:
+  push:
+    branches: [main]
   release:
     types: [published]
 
@@ -34,3 +36,6 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Test
+      run: |
+        python test/test_interface.py

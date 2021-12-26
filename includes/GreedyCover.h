@@ -18,9 +18,11 @@ class GreedyCoverInstance {
 public:
     GreedyCoverInstance(size_t n_elements);
     const MultiSet& operator[](size_t index) const;
+    const MultiSet& at(size_t index) const;
 
     vector<size_t> solution;
     vector<size_t> _coverage_until;
+    vector<size_t> _n_elements_remaining;
 
     size_t size() const; // Number of sets
     size_t n_elements() const; // Number of elements across all sets
@@ -64,6 +66,7 @@ private:
     bool __stop() const;
     void __check_elements(const vector<size_t>& elements) const;
     vector<size_t> __cover();
+    size_t __compute_n_ele_rem() const;
     size_t __current_coverage() const;
 };
 

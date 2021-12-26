@@ -36,6 +36,11 @@ BaseSet& BaseSet::operator=(const BaseSet& other)
 
 const size_t& BaseSet::operator[](size_t index) const
 {
+    return this->at(index);
+}
+
+const size_t& BaseSet::at(size_t index) const
+{
     if (index >= this->_n_elements)
         throw Exception("Index out of bound.");
     return this->_elements[index];
@@ -54,6 +59,11 @@ size_t BaseSet::min() const
 size_t BaseSet::max() const
 {
     return *std::max_element(this->_elements.begin(), this->_elements.end());
+}
+
+vector<size_t> BaseSet::get_elements() const
+{
+    return this->_elements;
 }
 
 std::ostream& operator<<(std::ostream& os, const BaseSet& bs)

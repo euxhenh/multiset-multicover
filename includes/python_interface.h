@@ -29,6 +29,7 @@ extern "C" {
 #endif
 
 static PyObject* _new_GreedyCoverInstance(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_at(PyObject* self, PyObject* args, PyObject* keywds);
 
 static PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds);
 static PyObject* _GreedyCoverInstance_n_elements(PyObject* self, PyObject* args, PyObject* keywds);
@@ -43,19 +44,25 @@ static PyObject* _GreedyCoverInstance_cover(PyObject* self, PyObject* args, PyOb
 
 static PyObject* _GreedyCoverInstance_solution(PyObject* self, PyObject* args, PyObject* keywds);
 static PyObject* _GreedyCoverInstance__coverage_until(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance__n_elements_remaining(PyObject* self, PyObject* args, PyObject* keywds);
 
 static PyMethodDef gci_methods[] = {
     { "_new_GreedyCoverInstance", (PyCFunction)_new_GreedyCoverInstance, METH_VARARGS | METH_KEYWORDS, "" },
+    { "_GreedyCoverInstance_at", (PyCFunction)_GreedyCoverInstance_at, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_size", (PyCFunction)_GreedyCoverInstance_size, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_n_elements", (PyCFunction)_GreedyCoverInstance_n_elements, METH_VARARGS | METH_KEYWORDS, "" },
+
     { "_GreedyCoverInstance_get_max_coverage", (PyCFunction)_GreedyCoverInstance_get_max_coverage, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_get_leftovers", (PyCFunction)_GreedyCoverInstance_get_leftovers, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_get_multisets_incomplete_cover", (PyCFunction)_GreedyCoverInstance_get_multisets_incomplete_cover, METH_VARARGS | METH_KEYWORDS, "" },
+
     { "_GreedyCoverInstance_add_multiset", (PyCFunction)_GreedyCoverInstance_add_multiset, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_delete_multiset", (PyCFunction)_GreedyCoverInstance_delete_multiset, METH_VARARGS | METH_KEYWORDS, "" },
+
     { "_GreedyCoverInstance_cover", (PyCFunction)_GreedyCoverInstance_cover, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_solution", (PyCFunction)_GreedyCoverInstance_solution, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance__coverage_until", (PyCFunction)_GreedyCoverInstance__coverage_until, METH_VARARGS | METH_KEYWORDS, "" },
+    { "_GreedyCoverInstance__n_elements_remaining", (PyCFunction)_GreedyCoverInstance__n_elements_remaining, METH_VARARGS | METH_KEYWORDS, "" },
     { NULL }
 };
 
