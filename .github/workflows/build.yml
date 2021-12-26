@@ -91,7 +91,7 @@ jobs:
 
   upload_pypi:
     name: Upload to pypi
-    needs: [build_wheels]
+    needs: [build_linux, build_other]
     runs-on: ubuntu-20.04
 
     if: github.event_name == 'push' &&
