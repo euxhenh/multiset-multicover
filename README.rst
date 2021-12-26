@@ -16,7 +16,7 @@ The same guarantee also applies to the multicover problem, as well as the
 multiset multicover problem (n here corresponds to all the elements including
 multiplicities, hence, the guarantees are worse).
 
-Examples
+Basic Example
 ________
 
 To run the greedy cover algorithm, one needs to create a GreedyCoverInstance
@@ -36,6 +36,8 @@ included (in order of selection).
     Output: [2]
     >>> gci.cover([2, 1, 1, 1])
     Output: [1, 0]
+
+For more detailed explanation see `doc <https://github.com/ferrocactus/multiset_multicover/tree/main/doc/usage.rst>`__.
 
 Installation
 ____________
