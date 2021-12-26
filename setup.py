@@ -30,7 +30,7 @@ options = {
     'name': 'multiset_multicover',
     'description': 'MM is a package for running the greedy cover algorithm to perform multiset multicover.',
     'license': 'MIT',
-    'version': '0.2',
+    'version': '0.21',
     'author': 'Euxhen Hasanaj',
     'author_email': 'ehasanaj@cs.cmu.edu',
     'url': 'https://github.com/ferrocactus/multiset_multicover',

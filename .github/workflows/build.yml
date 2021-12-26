@@ -87,7 +87,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          path: ./build/*.tar.gz
+          path: ./dist/*.tar.gz
 
   upload_pypi:
     name: Upload to pypi
