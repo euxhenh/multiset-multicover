@@ -42,7 +42,7 @@ options = {
     'platforms': 'ALL',
     'keywords': ['set', 'cover', 'multiset', 'multicover', 'greedy'],
     'install_requires': [],
-    'python_requires': ">=3.8"
+    'python_requires': ">=3.7"
 }
 
 setup(**options)
