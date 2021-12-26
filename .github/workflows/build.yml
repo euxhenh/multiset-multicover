@@ -16,12 +16,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_wheels:
+  build_linux:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macOS-10.15]
+        os: [ubuntu-20.04]
         wheel_arch: [x86_64, i686]
 
     steps:
@@ -35,6 +35,28 @@ jobs:
       uses: joerick/cibuildwheel@main
       env:
         CIBW_BUILD: "*-manylinux_${{ matrix.wheel_arch }}"
+
+    - uses: actions/upload-artifact@v2
+      with:
+        path: ./wheelhouse/*.whl
+
+  build_other:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019, macOS-10.15]
+        wheel_arch: [x86_64, i686]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Build wheels
+      uses: joerick/cibuildwheel@main
 
     - uses: actions/upload-artifact@v2
       with:
