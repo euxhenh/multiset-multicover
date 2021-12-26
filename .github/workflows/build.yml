@@ -30,10 +30,6 @@ jobs:
       with:
         python-version: '3.8'
 
-    - name: Test
-      run: |
-        python -m unittest -v test/test_interface.py
-
     - name: Build wheels
       uses: joerick/cibuildwheel@main
       env:
@@ -60,6 +56,11 @@ jobs:
       - name: Build
         run: |
           python -m build
+          python setup.py install
+
+      - name: Test
+        run: |
+          python -m unittest -v test/test_interface.py
 
       - uses: actions/upload-artifact@v2
         with:
