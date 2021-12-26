@@ -50,6 +50,12 @@ class GreedyCoverInstance:
         """
         return _c_mm._GreedyCoverInstance_at(self._gci, index)
 
+    def __repr__(self):
+        return f"GreedyCoverInstance({self.n_elements})"
+
+    def __str__(self):
+        return f"GreedyCoverInstance({self.n_elements}) with {self.size} multisets"
+
     @property
     def size(self):
         """

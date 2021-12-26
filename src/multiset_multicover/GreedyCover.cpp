@@ -85,6 +85,7 @@ vector<size_t> GreedyCoverInstance::__cover()
     this->__init_leftovers();
     this->__init_remaining_msets();
     this->__reset_msets();
+    this->_coverage_until.clear();
     this->_n_elements_remaining.clear();
     this->solution.clear();
 

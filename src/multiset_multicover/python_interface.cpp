@@ -56,7 +56,7 @@ vector<size_t> create_size_t_vector_from_list(PyObject* py_list)
             size_t num = PyLong_AsSize_t(py_item);
             v[i] = num;
         } else {
-            throw Exception("Non numeric value found.");
+            throw Exception("Non integer value found.");
         }
     }
     return v;
@@ -232,7 +232,7 @@ PyObject* _GreedyCoverInstance_delete_multiset(PyObject* self, PyObject* args, P
         if (PyLong_Check(py_index) && PyIndex_Check(py_index))
             gci->delete_multiset(PyLong_AsSize_t(py_index));
         else
-            throw Exception("Non numeric value found.");
+            throw Exception("Non integer value found.");
 
         Py_INCREF(Py_None);
         return Py_None;
@@ -263,7 +263,7 @@ PyObject* _GreedyCoverInstance_cover(PyObject* self, PyObject* args, PyObject* k
             if (PyLong_Check(py_max_iters))
                 max_iters = PyLong_AsSize_t(py_max_iters);
             else
-                throw Exception("Non integer number found.");
+                throw Exception("Non integer value found.");
         }
 
         if (PyLong_Check(py_coverage)) {

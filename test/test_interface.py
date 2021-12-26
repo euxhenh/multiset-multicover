@@ -21,9 +21,12 @@ class test_interface(unittest.TestCase):
         coverage_until = gci.coverage_until_
         self.assertListEqual(coverage_until, [1, 1, 2])
 
-        _ = gci.cover(3)
+        solution = gci.cover(3)
+        self.assertListEqual(solution, [2, 1, 4])
         multisets_incomplete_cover = gci.multisets_incomplete_cover_
         self.assertListEqual(multisets_incomplete_cover, [3])
+        coverage_until = gci.coverage_until_
+        self.assertListEqual(coverage_until, [0, 1, 2])
 
     def test2(self):
         gci = mm.GreedyCoverInstance(4)
