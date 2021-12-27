@@ -248,13 +248,15 @@ bool GreedyCoverInstance::__stop() const
 size_t GreedyCoverInstance::__current_coverage() const
 {
     size_t cc = SIZE_MAX;
+    // Note, if max coverage for some element is smaller than
+    // the desired coverage, then the desired coverage will be considered
 
     if (!this->_exclusive)
         for (size_t i = 0; i < this->_n_elements; ++i)
             // No issue with minus since leftovers are always <=
-            cc = std::min(std::min(this->_coverage_all, this->_max_coverage[i]) - this->_leftovers[i], cc);
+            cc = std::min(this->_coverage_all - this->_leftovers[i], cc);
     else
         for (size_t i = 0; i < this->_n_elements; ++i)
-            cc = std::min(std::min(this->_coverage_idx[i], this->_max_coverage[i]) - this->_leftovers[i], cc);
+            cc = std::min(this->_coverage_idx[i] - this->_leftovers[i], cc);
     return cc;
 }
