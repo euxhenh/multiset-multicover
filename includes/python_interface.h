@@ -30,6 +30,7 @@ extern "C" {
 
 static PyObject* _new_GreedyCoverInstance(PyObject* self, PyObject* args, PyObject* keywds);
 static PyObject* _GreedyCoverInstance_at(PyObject* self, PyObject* args, PyObject* keywds);
+static PyObject* _GreedyCoverInstance_effective_at(PyObject* self, PyObject* args, PyObject* keywds);
 
 static PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds);
 static PyObject* _GreedyCoverInstance_n_elements(PyObject* self, PyObject* args, PyObject* keywds);
@@ -49,6 +50,7 @@ static PyObject* _GreedyCoverInstance__n_elements_remaining(PyObject* self, PyOb
 static PyMethodDef gci_methods[] = {
     { "_new_GreedyCoverInstance", (PyCFunction)_new_GreedyCoverInstance, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_at", (PyCFunction)_GreedyCoverInstance_at, METH_VARARGS | METH_KEYWORDS, "" },
+    { "_GreedyCoverInstance_effective_at", (PyCFunction)_GreedyCoverInstance_effective_at, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_size", (PyCFunction)_GreedyCoverInstance_size, METH_VARARGS | METH_KEYWORDS, "" },
     { "_GreedyCoverInstance_n_elements", (PyCFunction)_GreedyCoverInstance_n_elements, METH_VARARGS | METH_KEYWORDS, "" },
 

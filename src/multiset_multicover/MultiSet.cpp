@@ -43,6 +43,11 @@ vector<size_t> MultiSet::get_multiplicities() const
     return this->_multiplicity;
 }
 
+vector<size_t> MultiSet::get_leftovers() const
+{
+    return this->_leftovers;
+}
+
 void MultiSet::reset_leftovers()
 {
     this->__init_leftovers();

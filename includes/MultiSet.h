@@ -23,6 +23,7 @@ public:
     const pair<size_t, size_t> at(size_t index) const;
 
     vector<size_t> get_multiplicities() const;
+    vector<size_t> get_leftovers() const;
 
     size_t value() const;
     void consume(const vector<size_t>& upper_limits);

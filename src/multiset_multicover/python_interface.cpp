@@ -110,6 +110,32 @@ PyObject* _GreedyCoverInstance_at(PyObject* self, PyObject* args, PyObject* keyw
     }
 }
 
+PyObject* _GreedyCoverInstance_effective_at(PyObject* self, PyObject* args, PyObject* keywds)
+{
+    PyObject* py_gci = NULL;
+    PyObject* py_index = NULL;
+    static const char* kwlist[] = { "gci", "index", NULL };
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "OO", (char**)kwlist, &py_gci, &py_index))
+        return NULL;
+
+    try {
+        GreedyCoverInstance* gci = decapsule_GreedyCoverInstance(py_gci);
+        if (PyLong_Check(py_index) && PyIndex_Check(py_index)) {
+            auto mset = gci->at(PyLong_AsSize_t(py_index));
+            PyObject* elements = create_list_from_size_t_vector(mset.get_elements());
+            PyObject* leftovers = create_list_from_size_t_vector(mset.get_leftovers());
+            PyObject* pp = PyTuple_Pack(2, elements, leftovers);
+            return pp;
+        } else {
+            throw Exception("Non integer index found.");
+        }
+    } catch (std::exception const& e) {
+        string s = "Could not index element: " + string(e.what());
+        PyErr_SetString(PyExc_BaseException, s.c_str());
+        return NULL;
+    }
+}
+
 PyObject* _GreedyCoverInstance_size(PyObject* self, PyObject* args, PyObject* keywds)
 {
     PyObject* py_gci = NULL;

@@ -48,6 +48,7 @@ class GreedyCoverInstance:
         """
         Returns the multiset at `index`.
         """
+        index = int(index)
         return _c_mm._GreedyCoverInstance_at(self._gci, index)
 
     def __repr__(self):
@@ -55,6 +56,13 @@ class GreedyCoverInstance:
 
     def __str__(self):
         return f"GreedyCoverInstance({self.n_elements}) with {self.size} multisets"
+
+    def effective_at(self, index):
+        """
+        Returns the multiset at `index` with a corrected multiplicity.
+        """
+        index = int(index)
+        return _c_mm._GreedyCoverInstance_effective_at(self._gci, index)
 
     @property
     def size(self):
@@ -122,6 +130,7 @@ class GreedyCoverInstance:
         """
         Removes the multiset given by index.
         """
+        index = int(index)
         if index >= self.size or index < 0:
             raise ValueError("Index out of bound.")
         _c_mm._GreedyCoverInstance_delete_multiset(self._gci, index)
@@ -147,6 +156,9 @@ class GreedyCoverInstance:
         max_iters: int
             If 0, will not limit the number of iterations (multisets selected).
         """
+        max_iters = int(max_iters)
+        if isinstance(coverage, int):
+            coverage = int(coverage)
         if max_iters < 0:
             raise ValueError("Cannot accept negative number of iterations.")
         return _c_mm._GreedyCoverInstance_cover(self._gci, coverage, max_iters)
