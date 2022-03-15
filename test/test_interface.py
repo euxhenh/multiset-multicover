@@ -17,7 +17,7 @@ class test_interface(unittest.TestCase):
         solution = gci.cover(2)
         self.assertListEqual(solution, [3, 1, 4])
         n_elements_rem = gci.n_elements_remaining_
-        self.assertListEqual(n_elements_rem, [3, 1, 0])
+        self.assertListEqual(n_elements_rem, [2, 1, 0])
         coverage_until = gci.coverage_until_
         self.assertListEqual(coverage_until, [1, 1, 2])
 
