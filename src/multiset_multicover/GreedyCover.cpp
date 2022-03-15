@@ -90,15 +90,25 @@ vector<size_t> GreedyCoverInstance::__cover()
     this->solution.clear();
 
     while (!this->__stop()) {
-        size_t value;
-        size_t best_val = 0;
+        size_t value, total_value;
+        size_t best_val = 0, best_total_val = 0;
         list<size_t>::iterator ut;
         for (auto it = this->_remaining_msets.begin(); it != this->_remaining_msets.end(); ++it) {
+            // First consume
+            // This takes care of the starting point where multiplicities
+            // are not clipped to the requested coverage
             this->_multisets[*it].consume(this->_leftovers);
             value = this->_multisets[*it].value();
             if (value > best_val) {
                 best_val = value;
+                best_total_val = this->_multisets[*it].total_value();
                 ut = it;
+            } else if (value == best_val) { // Update if better total value
+                total_value = this->_multisets[*it].total_value();
+                if (total_value > best_total_val) {
+                    best_total_val = total_value;
+                    ut = it;
+                }
             }
         }
         this->solution.push_back(*ut);

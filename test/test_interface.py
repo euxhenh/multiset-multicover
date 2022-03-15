@@ -15,14 +15,14 @@ class test_interface(unittest.TestCase):
         assert gci.n_elements == 4
         self.assertListEqual(gci.max_coverage_, [14, 8, 7, 2])
         solution = gci.cover(2)
-        self.assertListEqual(solution, [1, 2, 4])
+        self.assertListEqual(solution, [3, 1, 4])
         n_elements_rem = gci.n_elements_remaining_
         self.assertListEqual(n_elements_rem, [3, 1, 0])
         coverage_until = gci.coverage_until_
         self.assertListEqual(coverage_until, [1, 1, 2])
 
         solution = gci.cover(3)
-        self.assertListEqual(solution, [2, 1, 4])
+        self.assertListEqual(solution, [3, 4, 1])
         multisets_incomplete_cover = gci.multisets_incomplete_cover_
         self.assertListEqual(multisets_incomplete_cover, [3])
         coverage_until = gci.coverage_until_

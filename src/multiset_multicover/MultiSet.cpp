@@ -22,7 +22,7 @@ MultiSet::MultiSet(const vector<size_t>& elements, const vector<size_t>& multipl
     if (elements.size() != multiplicity.size())
         throw Exception("Found elements and multiplicities of differing sizes.");
     if (*std::min_element(multiplicity.begin(), multiplicity.end()) <= 0)
-        throw Exception("Cannot only accept positive multiplicities.");
+        throw Exception("Can only accept positive multiplicities.");
     this->__init_leftovers();
 }
 
@@ -57,6 +57,7 @@ void MultiSet::__init_leftovers()
 {
     this->_leftovers = this->_multiplicity;
     this->_value = std::accumulate(this->_multiplicity.begin(), this->_multiplicity.end(), 0);
+    this->_total_value = this->_value;
 #ifdef DEBUG
     cout << "Initializing leftovers\n";
     for (auto c : this->_leftovers)
@@ -73,6 +74,11 @@ vector<size_t> MultiSet::__default_multiplicity()
 size_t MultiSet::value() const
 {
     return this->_value;
+}
+
+size_t MultiSet::total_value() const
+{
+    return this->_total_value;
 }
 
 void MultiSet::consume(const vector<size_t>& upper_limits)

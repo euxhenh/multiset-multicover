@@ -105,16 +105,16 @@ void test2()
 
     solution = gci.cover(2);
     assert(solution.size() == 3);
-    assert(solution[0] == 1);
-    assert(solution[1] == 2);
+    assert(solution[0] == 3);
+    assert(solution[1] == 1);
     assert(solution[2] == 4);
 
     solution = gci.cover(3);
     auto n_ele_rem = gci._n_elements_remaining;
     assert(solution.size() == 3);
-    assert(solution[0] == 2);
-    assert(solution[1] == 1);
-    assert(solution[2] == 4);
+    assert(solution[0] == 3);
+    assert(solution[1] == 4);
+    assert(solution[2] == 1);
 
     assert(n_ele_rem.size() == 3);
     assert(n_ele_rem[0] == 2);

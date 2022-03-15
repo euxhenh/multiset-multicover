@@ -26,6 +26,7 @@ public:
     vector<size_t> get_leftovers() const;
 
     size_t value() const;
+    size_t total_value() const;
     void consume(const vector<size_t>& upper_limits);
     void reset_leftovers();
 
@@ -33,6 +34,7 @@ public:
 
 protected:
     size_t _value = 0;
+    size_t _total_value = 0;
     vector<size_t> _leftovers;
     vector<size_t> _multiplicity;
 
