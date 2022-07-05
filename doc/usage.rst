@@ -51,8 +51,8 @@ since each element has multiplicity 1. However, the value of the second
 multiset is going to be 2, since each of the multiplicities got clipped to 1.
 The value of the third will be 1, and so on.
 
-When two multisets have the same value, the one that appears first gets
-picked (might randomize this later). Therefore, set 0 gets picked first.
+When two multisets have the same value, the one that has the highest total
+value will get picked. Therefore, set 0 gets picked first.
 This covers elements 1, 2, 3, to the desired coverage leaving elements 0 and 4.
 Both of these elements can be covered by including set 3.
 

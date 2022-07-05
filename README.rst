@@ -11,10 +11,10 @@ multiplicity.
 The set cover problem is NP hard. The best known algorithm
 is a greedy approach that iteratively selects the set with the largest
 number of elements that have not been covered yet. This algorithm
-has a log(n)-approximation guarantee where n is the number of elements in U.
+has a log(n)-approximation guarantee where n is the size of the largest set.
 The same guarantee also applies to the multicover problem, as well as the
-multiset multicover problem (n here corresponds to all the elements including
-multiplicities, hence, the guarantees are worse).
+multiset multicover problem (n here corresponds to the size of the largest
+set, including multiplicities, hence, the guarantees are worse).
 
 Basic Example
 ________
