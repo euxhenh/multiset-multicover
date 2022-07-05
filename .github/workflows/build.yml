@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  CIBW_SKIP: "cp36-*"
+  CIBW_SKIP: "cp36-* pp*"
 
 jobs:
   build_linux:
