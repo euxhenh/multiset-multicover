@@ -14,7 +14,7 @@ number of elements that have not been covered yet. This algorithm
 has a log(n)-approximation guarantee where n is the size of the largest set.
 The same guarantee also applies to the multicover problem, as well as the
 multiset multicover problem (n here corresponds to the size of the largest
-set, including multiplicities, hence, the guarantees are worse).
+set, counting multiplicities).
 
 Basic Example
 ________
