@@ -1,3 +1,6 @@
+.. role:: python(code)
+   :language: python
+
 This package implements the Greedy Cover algorithm for multisets
 in `C++` and exposes it to Python.
 Given a universe of elements U, and a family of subsets F = {S1, ..., Sn}
@@ -25,6 +28,8 @@ or a specific integer for each element in U.
 The solution is a list of integers corresponding to the index of the sets
 included (in order of selection).
 
+NOTE: Make sure any numpy arrays are converted to lists by calling :python:`arr.tolist()`.
+
     >>> import multiset_multicover as mm
 
     >>> gci = mm.GreedyCoverInstance(4)
@@ -43,5 +48,7 @@ Installation
 ____________
 
 To install this package, run
+
+.. code:: bash
 
     $ pip install multiset-multicover
