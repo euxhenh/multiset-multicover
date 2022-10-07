@@ -49,7 +49,7 @@ options = {
         set, counting multiplicities)."""
     ),
     'license': 'MIT',
-    'version': '0.8',
+    'version': '1.0',
     'author': 'Euxhen Hasanaj',
     'author_email': 'ehasanaj@cs.cmu.edu',
     'url': 'https://github.com/euxhenh/multiset_multicover',
